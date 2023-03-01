@@ -5,27 +5,48 @@ import hello.itemservice.repository.ItemSearchCond;
 import hello.itemservice.repository.ItemUpdateDto;
 import hello.itemservice.repository.memory.MemoryItemRepository;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Transactional
 @SpringBootTest
-class ItemRepositoryTest {
+class  ItemRepositoryTest {
 
     @Autowired
     ItemRepository itemRepository;
 
-    @AfterEach
-    void afterEach() {
-        //MemoryItemRepository 의 경우만 제한적으로 사용
-        if (itemRepository instanceof MemoryItemRepository) {
-            ((MemoryItemRepository) itemRepository).clearStore();
-        }
-    }
+    /**
+     * 롤백 코드
+     */
+
+//    @Autowired
+//    PlatformTransactionManager transactionManager;
+//    TransactionStatus status;
+//
+//    @BeforeEach
+//    void beforeEach(){
+//        status = transactionManager.getTransaction(new DefaultTransactionAttribute());
+//    }
+//
+//    @AfterEach
+//    void afterEach() {
+//        //MemoryItemRepository 의 경우만 제한적으로 사용
+//        if (itemRepository instanceof MemoryItemRepository) {
+//            ((MemoryItemRepository) itemRepository).clearStore();
+//        }
+//        // transaction 롤백
+//        transactionManager.rollback(status);
+//    }
 
     @Test
     void save() {
